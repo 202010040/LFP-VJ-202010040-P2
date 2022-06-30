@@ -1,0 +1,424 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    operador_igualacion
+
+Grammar
+
+Rule 0     S' -> INITIAL
+Rule 1     INITIAL -> reservada_inicio EXPRESSIONS reservada_fin
+Rule 2     EXPRESSIONS -> EXPRESSIONS E
+Rule 3     EXPRESSIONS -> E
+Rule 4     E -> E operador_suma E
+Rule 5     E -> E operador_resta E
+Rule 6     E -> E operador_multiplicacion E
+Rule 7     E -> E operador_division E
+Rule 8     E -> E operador_resto E
+Rule 9     E -> id
+Rule 10    E -> numero
+
+Terminals, with rules where they appear
+
+error                : 
+id                   : 9
+numero               : 10
+operador_division    : 7
+operador_igualacion  : 
+operador_multiplicacion : 6
+operador_resta       : 5
+operador_resto       : 8
+operador_suma        : 4
+reservada_fin        : 1
+reservada_inicio     : 1
+
+Nonterminals, with rules where they appear
+
+E                    : 2 3 4 4 5 5 6 6 7 7 8 8
+EXPRESSIONS          : 1 2
+INITIAL              : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . INITIAL
+    (1) INITIAL -> . reservada_inicio EXPRESSIONS reservada_fin
+
+    reservada_inicio shift and go to state 2
+
+    INITIAL                        shift and go to state 1
+
+state 1
+
+    (0) S' -> INITIAL .
+
+
+
+state 2
+
+    (1) INITIAL -> reservada_inicio . EXPRESSIONS reservada_fin
+    (2) EXPRESSIONS -> . EXPRESSIONS E
+    (3) EXPRESSIONS -> . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    EXPRESSIONS                    shift and go to state 3
+    E                              shift and go to state 4
+
+state 3
+
+    (1) INITIAL -> reservada_inicio EXPRESSIONS . reservada_fin
+    (2) EXPRESSIONS -> EXPRESSIONS . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    reservada_fin   shift and go to state 7
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 8
+
+state 4
+
+    (3) EXPRESSIONS -> E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+    reservada_fin   reduce using rule 3 (EXPRESSIONS -> E .)
+    id              reduce using rule 3 (EXPRESSIONS -> E .)
+    numero          reduce using rule 3 (EXPRESSIONS -> E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+
+state 5
+
+    (9) E -> id .
+
+    operador_suma   reduce using rule 9 (E -> id .)
+    operador_resta  reduce using rule 9 (E -> id .)
+    operador_multiplicacion reduce using rule 9 (E -> id .)
+    operador_division reduce using rule 9 (E -> id .)
+    operador_resto  reduce using rule 9 (E -> id .)
+    reservada_fin   reduce using rule 9 (E -> id .)
+    id              reduce using rule 9 (E -> id .)
+    numero          reduce using rule 9 (E -> id .)
+
+
+state 6
+
+    (10) E -> numero .
+
+    operador_suma   reduce using rule 10 (E -> numero .)
+    operador_resta  reduce using rule 10 (E -> numero .)
+    operador_multiplicacion reduce using rule 10 (E -> numero .)
+    operador_division reduce using rule 10 (E -> numero .)
+    operador_resto  reduce using rule 10 (E -> numero .)
+    reservada_fin   reduce using rule 10 (E -> numero .)
+    id              reduce using rule 10 (E -> numero .)
+    numero          reduce using rule 10 (E -> numero .)
+
+
+state 7
+
+    (1) INITIAL -> reservada_inicio EXPRESSIONS reservada_fin .
+
+    $end            reduce using rule 1 (INITIAL -> reservada_inicio EXPRESSIONS reservada_fin .)
+
+
+state 8
+
+    (2) EXPRESSIONS -> EXPRESSIONS E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+    reservada_fin   reduce using rule 2 (EXPRESSIONS -> EXPRESSIONS E .)
+    id              reduce using rule 2 (EXPRESSIONS -> EXPRESSIONS E .)
+    numero          reduce using rule 2 (EXPRESSIONS -> EXPRESSIONS E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+
+state 9
+
+    (4) E -> E operador_suma . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 14
+
+state 10
+
+    (5) E -> E operador_resta . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 15
+
+state 11
+
+    (6) E -> E operador_multiplicacion . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 16
+
+state 12
+
+    (7) E -> E operador_division . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 17
+
+state 13
+
+    (8) E -> E operador_resto . E
+    (4) E -> . E operador_suma E
+    (5) E -> . E operador_resta E
+    (6) E -> . E operador_multiplicacion E
+    (7) E -> . E operador_division E
+    (8) E -> . E operador_resto E
+    (9) E -> . id
+    (10) E -> . numero
+
+    id              shift and go to state 5
+    numero          shift and go to state 6
+
+    E                              shift and go to state 18
+
+state 14
+
+    (4) E -> E operador_suma E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+  ! shift/reduce conflict for operador_suma resolved as shift
+  ! shift/reduce conflict for operador_resta resolved as shift
+  ! shift/reduce conflict for operador_multiplicacion resolved as shift
+  ! shift/reduce conflict for operador_division resolved as shift
+  ! shift/reduce conflict for operador_resto resolved as shift
+    reservada_fin   reduce using rule 4 (E -> E operador_suma E .)
+    id              reduce using rule 4 (E -> E operador_suma E .)
+    numero          reduce using rule 4 (E -> E operador_suma E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+  ! operador_suma   [ reduce using rule 4 (E -> E operador_suma E .) ]
+  ! operador_resta  [ reduce using rule 4 (E -> E operador_suma E .) ]
+  ! operador_multiplicacion [ reduce using rule 4 (E -> E operador_suma E .) ]
+  ! operador_division [ reduce using rule 4 (E -> E operador_suma E .) ]
+  ! operador_resto  [ reduce using rule 4 (E -> E operador_suma E .) ]
+
+
+state 15
+
+    (5) E -> E operador_resta E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+  ! shift/reduce conflict for operador_suma resolved as shift
+  ! shift/reduce conflict for operador_resta resolved as shift
+  ! shift/reduce conflict for operador_multiplicacion resolved as shift
+  ! shift/reduce conflict for operador_division resolved as shift
+  ! shift/reduce conflict for operador_resto resolved as shift
+    reservada_fin   reduce using rule 5 (E -> E operador_resta E .)
+    id              reduce using rule 5 (E -> E operador_resta E .)
+    numero          reduce using rule 5 (E -> E operador_resta E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+  ! operador_suma   [ reduce using rule 5 (E -> E operador_resta E .) ]
+  ! operador_resta  [ reduce using rule 5 (E -> E operador_resta E .) ]
+  ! operador_multiplicacion [ reduce using rule 5 (E -> E operador_resta E .) ]
+  ! operador_division [ reduce using rule 5 (E -> E operador_resta E .) ]
+  ! operador_resto  [ reduce using rule 5 (E -> E operador_resta E .) ]
+
+
+state 16
+
+    (6) E -> E operador_multiplicacion E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+  ! shift/reduce conflict for operador_suma resolved as shift
+  ! shift/reduce conflict for operador_resta resolved as shift
+  ! shift/reduce conflict for operador_multiplicacion resolved as shift
+  ! shift/reduce conflict for operador_division resolved as shift
+  ! shift/reduce conflict for operador_resto resolved as shift
+    reservada_fin   reduce using rule 6 (E -> E operador_multiplicacion E .)
+    id              reduce using rule 6 (E -> E operador_multiplicacion E .)
+    numero          reduce using rule 6 (E -> E operador_multiplicacion E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+  ! operador_suma   [ reduce using rule 6 (E -> E operador_multiplicacion E .) ]
+  ! operador_resta  [ reduce using rule 6 (E -> E operador_multiplicacion E .) ]
+  ! operador_multiplicacion [ reduce using rule 6 (E -> E operador_multiplicacion E .) ]
+  ! operador_division [ reduce using rule 6 (E -> E operador_multiplicacion E .) ]
+  ! operador_resto  [ reduce using rule 6 (E -> E operador_multiplicacion E .) ]
+
+
+state 17
+
+    (7) E -> E operador_division E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+  ! shift/reduce conflict for operador_suma resolved as shift
+  ! shift/reduce conflict for operador_resta resolved as shift
+  ! shift/reduce conflict for operador_multiplicacion resolved as shift
+  ! shift/reduce conflict for operador_division resolved as shift
+  ! shift/reduce conflict for operador_resto resolved as shift
+    reservada_fin   reduce using rule 7 (E -> E operador_division E .)
+    id              reduce using rule 7 (E -> E operador_division E .)
+    numero          reduce using rule 7 (E -> E operador_division E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+  ! operador_suma   [ reduce using rule 7 (E -> E operador_division E .) ]
+  ! operador_resta  [ reduce using rule 7 (E -> E operador_division E .) ]
+  ! operador_multiplicacion [ reduce using rule 7 (E -> E operador_division E .) ]
+  ! operador_division [ reduce using rule 7 (E -> E operador_division E .) ]
+  ! operador_resto  [ reduce using rule 7 (E -> E operador_division E .) ]
+
+
+state 18
+
+    (8) E -> E operador_resto E .
+    (4) E -> E . operador_suma E
+    (5) E -> E . operador_resta E
+    (6) E -> E . operador_multiplicacion E
+    (7) E -> E . operador_division E
+    (8) E -> E . operador_resto E
+
+  ! shift/reduce conflict for operador_suma resolved as shift
+  ! shift/reduce conflict for operador_resta resolved as shift
+  ! shift/reduce conflict for operador_multiplicacion resolved as shift
+  ! shift/reduce conflict for operador_division resolved as shift
+  ! shift/reduce conflict for operador_resto resolved as shift
+    reservada_fin   reduce using rule 8 (E -> E operador_resto E .)
+    id              reduce using rule 8 (E -> E operador_resto E .)
+    numero          reduce using rule 8 (E -> E operador_resto E .)
+    operador_suma   shift and go to state 9
+    operador_resta  shift and go to state 10
+    operador_multiplicacion shift and go to state 11
+    operador_division shift and go to state 12
+    operador_resto  shift and go to state 13
+
+  ! operador_suma   [ reduce using rule 8 (E -> E operador_resto E .) ]
+  ! operador_resta  [ reduce using rule 8 (E -> E operador_resto E .) ]
+  ! operador_multiplicacion [ reduce using rule 8 (E -> E operador_resto E .) ]
+  ! operador_division [ reduce using rule 8 (E -> E operador_resto E .) ]
+  ! operador_resto  [ reduce using rule 8 (E -> E operador_resto E .) ]
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for operador_suma in state 14 resolved as shift
+WARNING: shift/reduce conflict for operador_resta in state 14 resolved as shift
+WARNING: shift/reduce conflict for operador_multiplicacion in state 14 resolved as shift
+WARNING: shift/reduce conflict for operador_division in state 14 resolved as shift
+WARNING: shift/reduce conflict for operador_resto in state 14 resolved as shift
+WARNING: shift/reduce conflict for operador_suma in state 15 resolved as shift
+WARNING: shift/reduce conflict for operador_resta in state 15 resolved as shift
+WARNING: shift/reduce conflict for operador_multiplicacion in state 15 resolved as shift
+WARNING: shift/reduce conflict for operador_division in state 15 resolved as shift
+WARNING: shift/reduce conflict for operador_resto in state 15 resolved as shift
+WARNING: shift/reduce conflict for operador_suma in state 16 resolved as shift
+WARNING: shift/reduce conflict for operador_resta in state 16 resolved as shift
+WARNING: shift/reduce conflict for operador_multiplicacion in state 16 resolved as shift
+WARNING: shift/reduce conflict for operador_division in state 16 resolved as shift
+WARNING: shift/reduce conflict for operador_resto in state 16 resolved as shift
+WARNING: shift/reduce conflict for operador_suma in state 17 resolved as shift
+WARNING: shift/reduce conflict for operador_resta in state 17 resolved as shift
+WARNING: shift/reduce conflict for operador_multiplicacion in state 17 resolved as shift
+WARNING: shift/reduce conflict for operador_division in state 17 resolved as shift
+WARNING: shift/reduce conflict for operador_resto in state 17 resolved as shift
+WARNING: shift/reduce conflict for operador_suma in state 18 resolved as shift
+WARNING: shift/reduce conflict for operador_resta in state 18 resolved as shift
+WARNING: shift/reduce conflict for operador_multiplicacion in state 18 resolved as shift
+WARNING: shift/reduce conflict for operador_division in state 18 resolved as shift
+WARNING: shift/reduce conflict for operador_resto in state 18 resolved as shift
