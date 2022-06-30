@@ -4,6 +4,8 @@ from ply.lex import lex
 from ply.yacc import yacc
 
 
+
+
 #...........................................................................#
 #                                                                           #
 #                           ANALISIS LEXICO                                 #
@@ -15,15 +17,6 @@ def ObtenerColumna(t):
   line_start = INPUT.rfind('\n', 0, t.lexpos) + 1
   return (t.lexpos-line_start)+1
 
-#Metodo para obtener lexema, se usara en el arbol sintactico
-def ObtenerLexema(lexema):
-  tipo = ''
-  if lexema != None:
-    for tok in lexer:
-      if str(tok.value) == lexema:
-        tipo = tok.type
-        break
-  return tipo
 
 reserved = {
     "reservada_inicio":r'INICIO',
@@ -78,12 +71,13 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-
 #...........................................................................#
 #                                                                           #
 #                           ANALISIS SINTACTICO                             #
 #                                                                           #
 #...........................................................................#
+      
+
 #Grafo del arbol sintactico
 Grafo =graphviz.Graph("G",filename="Grafo.png",format='png',node_attr= { 'height': '1'},directory='Grafos')
 nodo = []
@@ -145,7 +139,7 @@ def p_E(p):
       'NoTerminal': False,
       'Linea': p.lexer.lineno,
       'Columna' : ObtenerColumna(p.lexer),
-      'Tipo': p[1], #Retroena el tipo de lexema
+      'Tipo': (p[1]), #Retrorna el tipo de lexema
       'Valor': p[1]
     }
     
@@ -163,7 +157,7 @@ def p_E(p):
       'NoTerminal': False,
       'Linea': p.lexer.lineno,
       'Columna' : ObtenerColumna(p.lexer),
-      'Tipo': p[2], 
+      'Tipo': (p[2]), 
       'Valor': p[2]
       },p[3]]
     }
@@ -177,11 +171,6 @@ def p_error(p):
   else:
     print("Ninguna instrucción válida")
 
-#ANALIZADOR LEXICO
-Lexer = lex()#Variable para usar la libreria lexer, debe ser alfinal, luego de declara los tokens
-#ANALIZADOR SINTACTICO
-parser = yacc(start='INITIAL') #Le diremos de donde debe comenzar, aunque si no empieza por la primera produccion que estedefinida
-
 
 
 #Variable para leer
@@ -190,9 +179,41 @@ INICIO
 5*9+1-2
 FIN
 '''
-lexer = lex()
+
+#ANALIZADOR LEXICO
+Lexer = lex()
+
+INPUT = r'''
+INICIO
+56*9-5/2552
+FIN
+'''
+
+Lexer.input(INPUT)
+#Se necesita guardar los tokens en otra variable, para trabajar con ellos
+Lexer2 = []
+for tok in Lexer:
+  Lexer2.append(tok)
+
+def ObtenerTipo(t):
+  tipo = None
+  for tok in Lexer2:
+    print (t, tok)
+    if t == tok.value:
+      tipo = (tok.type)
+  return (tipo) 
+
+#ANALIZADOR SINTACTICO
+parser = yacc(start='INITIAL') #Le diremos de donde debe comenzar, aunque si no empieza por la primera produccion que estedefinida
+
 ast = parser.parse(INPUT, Lexer) #Retorna una lista de instrucciones
 Json = json.loads(json.dumps(ast, indent= 4, sort_keys= False))
+
+#-----------------------------------------------------------------------------#
+#                      Verificar el tipo de lexemaa obtenido                  #
+#.............................................................................#
+
+
 
 #print(Json)
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
@@ -202,6 +223,7 @@ Json = json.loads(json.dumps(ast, indent= 4, sort_keys= False))
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #Recorre el Json creado
 def Graficar(i):
+  #Nombra las hojas de los iteracdores
     if i['NoTerminal'] == True:
       #Itera en los hijos
       #Crea un nodo para conectarlo con los hijos
@@ -209,23 +231,26 @@ def Graficar(i):
       #Se unan incorrectamente
       Grafo.node(name = str(id(i)), label=str(i['Tipo']))
       for j in i['Hijos']:
+        #Obtiene el lexema del cual provienen los no terminales, eso solo si hace match con algun token
+        if ObtenerTipo(j['Tipo']) != None:
+          j['Tipo'] = ObtenerTipo(j['Tipo'])
         #Por cada hijo que tenga lo une con sus padres
-        Grafo.node(name = str(id(j)), label=str(j['Tipo']))
+        #Si es un simbolo terminal, entonces tendra un valor
+        if j['NoTerminal'] == False:
+          Grafo.node(name = str(id(j)), label=str(j['Tipo'])+" : "+ str(j['Valor']))
+        else:
+          Grafo.node(name = str(id(j)), label=str(j['Tipo']))
         Grafo.edge(str(id(i)), str(id(j)))
         #Luego de unirlos, pregunta si son No terminales, si  son No terminales entonces se agraga recursividad
         if j['NoTerminal'] == True:
           Graficar(j)
 
+
 for i in Json:
   Graficar(i)
 
 Grafo.view()
-#Crear nodos
-'''
-lexer.input(INPUT)
 
-for tok in lexer:
-  print(tok)
-'''
+
 
 
